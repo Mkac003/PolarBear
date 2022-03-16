@@ -1,0 +1,16 @@
+{
+  "name": "My App",
+  "codename": "test",
+  "version": "1.0.0",
+  "author": "Me",
+  
+  "build":{
+    "include": ["test.py"],
+    "start": "test.py",
+    "dir":"bin",
+    "platforms":{
+      "linux": ["appimage"],
+      "windows": ["exe"]
+      }
+    }
+  }
