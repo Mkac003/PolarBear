@@ -46,7 +46,7 @@ int main(){
       PB_SetWindowTitle(window, title);
       }
       
-    // PB_DrawFilledRectXYWHRGB(window_surface, x, 100, 100, 100, 255, 0, 0);
+    PB_DrawFilledRectXYWHRGB(window_surface, x, 100, 100, 100, 255, 0, 0);
     
     // PB_SetColor(window, 255, 255, 255);
     PB_Refresh(window);
