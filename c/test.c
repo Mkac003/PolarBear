@@ -2,21 +2,20 @@
 #include <stdlib.h>
 
 int main(){
-  PB_ConsoleDisableBuffering();
-  
   PB_Init();
   
-  PB_Window *window = PB_CreateWindow("Polar Bear", 800, 600, PB_RENDERER_ACCELERATED);
-  PB_SetWindowPosition(window, 100, 50);
-  PB_SetWindowTitle(window, "Hello");
-  
+  PB_Window *window = PB_CreateWindow("Polar Bear", 643, 638, PB_RENDERER_ACCELERATED);
+    
   PB_Bool running = PB_True;
   long int timer = 0;
   PB_Event event;
   
   PB_Surface *window_surface = PB_GetWindowSurface(window);
+  PB_Surface *image = PB_LoadImage("cat.jpg");
+  PB_Convert(window, image);
   
-  int x = 0;
+  PB_Rect *imagerect = PB_CreateRect(0, 0, 643, 638);
+  PB_Pos *pos = PB_CreatePos(0, 0);
   
   char title[50];
   
@@ -26,14 +25,6 @@ int main(){
       if (event.type==PB_QUIT){
         PB_Quit(window);
         return 0;
-        }
-      if (event.type==PB_KEYDOWN){
-        if (event.key==PB_d){
-          x = x+50;
-          }
-        if (event.key==PB_a){
-          x = x-50;
-          }
         }
       }
     
@@ -45,14 +36,16 @@ int main(){
       sprintf(title, "FPS: %f", PB_GetFps(window));
       PB_SetWindowTitle(window, title);
       }
-      
-    PB_DrawFilledRectXYWHRGB(window_surface, x, 100, 100, 100, 255, 0, 0);
+    
+    PB_Blit(image, imagerect, window_surface, pos);
     
     // PB_SetColor(window, 255, 255, 255);
     PB_Refresh(window);
     
     PB_LimitFps(window, -1);
     }
+  
+  PB_FreeSurface(image);
   
   return 0;
   }

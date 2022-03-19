@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Polar Bear - The Game Library That You've Been Waiting For</title>
+    <title>PolarBear</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manjari&family=Roboto:wght@300&display=swap" rel="stylesheet">
     <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      }
     body {
       background-color: white;
       color: white;
@@ -13,17 +17,18 @@
       margin: 0;
       padding: 0;
       }
-      
     
-    * {margin: 0;padding: 0}
-    
+    * {
+      margin: 0;
+      padding: 0;
+      }
     
     #nav h1{
       padding-left: 3px;
       }
     
     #navl li {
-      background-color: red;
+      vertical-align: middle;
       display: inline-block;
       *display: inline;
       }
@@ -32,12 +37,13 @@
       list-style-type: none;
       }
     
-    * .navlink a {color: white;text-decoration:none;}
+    * .navlink a {color: white;text-decoration:none}
     
     * .navlink {
       text-align: center;
       transform: translate(0, -50);
       margin-left: 20px;
+      margin-bottom: 4px;
       }
     
     #nav {
@@ -46,33 +52,145 @@
       padding-left: 10px;
       width: 100%;
       }
+    
+    #infobox1 {
+      color: #281811;
+      font-size: 20px;
+      width: 80%;
+      padding: 20px;
+      }
+    
+    #infobox2 {
+      width: 100%;
+      background-color: #281811;
+      padding: 20px;
+      font-size: 20px;
+      }
+    
+    
+    .hover-underline-animation {
+      display: inline-block;
+      position: relative;
+      color: #FFFFFF;
+      }
+
+    .hover-underline-animation:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #FFFFFF;
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+      }
+
+    .hover-underline-animation:hover:after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+      }
+    
+    .grow { transition: all .2s ease-in-out; }
+    .grow:hover { transform: scale(1.05)}
+    
+    .moveup { transition: all .2s ease-in-out; }
+    .moveup:hover { transform: translate(0, -5px)}
+    
     </style>
+    
+    <script type="text/javascript">
+    
+    window.onload = function() {
+
+      var totop = document.getElementById("totop");
+
+      totop.onclick = function() {
+        window.scrollTo({top: 0, behavior: 'smooth'}); /*Just scroll the window to the top smoothly*/
+        return false;
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="nav">
       <div>
         <ul id="navl">
-          <h1>Polar Bear</h1>
-          <li class="navlink"><a href="#none">Home</a></li>
-          <li class="navlink"><a href="#none">Docs</a></li>
+          <li><h1>Polar Bear</h1></li>
+          <li class="hover-underline-animation navlink moveup grow"><a href="#none">Home</a></li>
+          <li class="hover-underline-animation navlink moveup grow"><a href="#none">Docs</a></li>
         </ul>
         <p>A fast and simple library for making 2D games.</p>
       </div>
+    <a href="https://github.com/Mkac003/PolarBear"><img src="github.png" class="grow moveup" style="transition: 0.3s;animation-name: hoverfloat;animation-duration: 2s;width: 30px;horizontal-align: right;padding-top:10px;position: absolute; positin"></a>
     </div>
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320", id="wave1">
-    <path fill="#281811" fill-opacity="1" d="M0,192L60,208C120,224,240,256,360,266.7C480,277,600,267,720,234.7C840,203,960,149,1080,128C1200,107,1320,117,1380,122.7L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+<!--
+    <h1 style="font-size:200px;color:black;background: none;position:absolute;left:25%;top:28%;">PolarBear</h1>
+-->
+   
+<!--
+   #d7e7ee 
+   #FFFFFF
+   #281811
+   #492C20
+-->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 360", id="wave1">
+    
+    <path id="wave1path" fill="#281811" fill-opacity="1" d="M0,192L60,208C120,224,240,256,360,266.7C480,277,600,267,720,234.7C840,203,960,149,1080,128C1200,107,1320,117,1380,122.7L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+    <text class="moveup" style="-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;mix-blend-mode: difference;font-weight:bold;font-size:200px;color:white;background: none;font-family: 'Manjari', sans-serif;text-align:middle;" x="21%" y=300 fill="#d7e7ee">PolarBear</text>
+    <text x="22%" y=320 class="moveup">A Fast and Lightweight library for 2D graphics development.</text>
     </svg>
     
-    <section>
-      <h4>Written in C++</h4>
-      <p>PolarBear is written in C++ for blazing fast speed.</p>
-    </section>
+    <div id="infobox1">
+      <ul style="list-style: none">
+        <li style="display: inline-block;vertical-align: top;"><img class="grow" src="screenshot1.png" style="border-radius: 25px;width: 300px;"></li>
+        <li style="display: inline-block;vertical-align: middle;margin-left:10px;margin-top: 30px; ">
+          <h4 class="moveup">Written in C++</h4>
+          <p>PolarBear is written in C++ for blazing fast speed.</p>
+          
+          <h4 class="moveup" style="margin-top: 10px">Fully open-source</h4>
+          <p>PolarBear can be found on <a style="font-weight: bold;color:#281811" href="https://github.com/Mkac003/PolarBear">Github</a>.</p>
+          
+          <h4 class="moveup" style="margin-top: 10px">Usable in Python, C or C++</h4>
+          <p>PolarBear is avaliable natively in C and C++. An official module for Python3 exists, which delivers PolarBear in a pythonic API.</p>
+          
+          <h4 class="moveup" style="margin-top: 10px">Fully documented</h4>
+          <p>Feature-rich documentaton, so you won't get lost trying to figure out keywords.</p>
+          
+          <h4 class="moveup" style="margin-top: 10px">Works on Windows, Linux and Android</h4>
+          <p>The PolarBuild project allows you to package your app from one system into .exe, .AppImage, .apk and linux executable.</p>
+          </li>
+      </ul>
+    </div>
     
-    <section>
-      <h4>Easy to get into</h4>
-      <p>PolarBear is easy to get into. It is based on SDL2 and has a variety of tools to help you achieve your goal.</p>
-    </section>
+    <div id="infobox2" style="background-image:url('svg1.svg');background-repeat: no-repeat;background-size: 100%;height: 320px;">
+      <h2 style="color:white;width:20%;" class="moveup">What's new?</h2>
+      <ul style="list-style-type: none;">
+        <li class="grow" style="display: inline-block;background-color:white;width:20%;color:#281811;padding:10px;border-radius:10px">
+          <h3><u>0.1.0 - development version</u></h3>
+          <p>This is the first release of PolarBear. It includes the first commit and C++ setup. The Python3 wrapper has only started, and it is planned for a future release. Functions implemented: <b>PB_RectXYWHRGB</b>,<b> PB_Clear</b>,<b> PB_Refresh</b>,<b> PB_CreateWindow</b> and other.A simple event system was also added, featuring simple <b>KeyDown</b> and <b>KeyUp</b> events and all the main keyboard keys. See the new things on <a href="https://github.com/Mkac003/PolarBear" style="font-weight: bold;color:#281811">GitHub</a></p>
+        </li>
+      </ul>
+    </div>
+    
+<!--
+    <div id="examples" style="padding:10px;">
+      <h2 style="color:#281811">Games and Examples</h2>
+      <ul style="list-style-type:none">
+        <li style="display: inline-block;"></li>
+      </ul>
+    </div>
+-->
+    
+    <footer style="background-color:#281811;color:white;padding: 10px;">
+      <ul>
+        <li class="grow" style="display:inline-block"><h4>PolarBear 2022 <span>&#8226;</span> <a class="hover-underline-animation" style="color:white;text-decoration:none" href="https://github.com/Mkac003/PolarBear">GitHub</a></h4></li>
+        <li class="moveup grow" style="display:inline-block;float:right;padding-right: 10px;padding-top: 3px;"><a style="font-weight: bold;color:white;text-decoration:none" id="totop" href="#nav">Top</a></li>
+      </ul>
+    </footer>
     
   </body>
 </html>
+

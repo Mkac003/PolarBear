@@ -69,20 +69,25 @@ void PB_Quit(PB_Window *window);
 
 // Create a PB Surface
 PB_Surface *PB_CreateSurface(int w, int h);
+void PB_Blit(PB_Surface *src, PB_Rect *srcrect, PB_Surface *dst, PB_Pos *pos);
+
 void PB_FreeSurface(PB_Surface *surface);
 int PB_GetEvent(PB_Event *event);
 int PB_NullGetEvent();
 
-// void PB_SetBGRenderColorRGB(PB_Window *window, int r, int g, int b); // Deprecated
-// void PB_SetBGRenderColorRGBA(PB_Window *window, int r, int g, int b, int a);
 void PB_Clear(PB_Window *window, int r, int g, int b);
 void PB_Refresh(PB_Window *window);
 void PB_LimitFps(PB_Window *window, float fps);
 
 // Drawing
 
-// void PB_SetColor(PB_Window *window, Uint8 r, Uint8 g, Uint8 b);
-// void PB_SetColorRGBA(PB_Window *window, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+// Image
+PB_Surface *PB_LoadImage(char *path);
+PB_Texture *PB_LoadImageTexture(char *path);
+
+PB_Surface *PB_Scale(PB_Surface *surf, int w, int h);
+PB_Pos *PB_CreatePos(int x, int y);
+void PB_Convert(PB_Window *window, PB_Surface *surf);
 
 // Rect
 PB_Rect *PB_CreateRect(int x, int y, int w, int h);

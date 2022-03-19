@@ -34,3 +34,11 @@ typedef struct {
 typedef struct {
   SDL_Rect *sdl_rect;
   } PB_Rect;
+
+typedef struct {
+  SDL_Rect *sdl_rect;
+  } PB_Pos;
+
+typedef struct {
+  SDL_Texture *sdl_tex;
+  } PB_Texture;
