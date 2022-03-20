@@ -1,5 +1,8 @@
 #include <SDL2/SDL.h>
 
+#ifndef PB_TYPES_H
+#define PB_TYPES_H
+
 #define PB_QUIT SDL_QUIT
 #define PB_KEYDOWN SDL_KEYDOWN
 #define PB_KEYUP SDL_KEYUP
@@ -42,3 +45,5 @@ typedef struct {
 typedef struct {
   SDL_Texture *sdl_tex;
   } PB_Texture;
+
+#endif

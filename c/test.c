@@ -1,4 +1,6 @@
-#include "polarbear.h"
+#include "polarbear/polarbear.h"
+#include "polarbear/draw.h"
+
 #include <stdlib.h>
 
 int main(){
@@ -16,6 +18,7 @@ int main(){
   
   PB_Rect *imagerect = PB_CreateRect(0, 0, 643, 638);
   PB_Pos *pos = PB_CreatePos(0, 0);
+  // PB_DrawFilledCircle(image, 100, 100, 50, 255, 255, 255);
   
   char title[50];
   
@@ -28,7 +31,7 @@ int main(){
         }
       }
     
-    PB_Clear(window, 255, 255, 255);
+    // PB_Clear(window, 255, 255, 255);
     
     timer ++;
     if (timer>10) {

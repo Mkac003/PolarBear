@@ -4,8 +4,9 @@
 #include <SDL2/SDL.h>
 #include "pbtypes.h"
 
-#ifndef POLAR_H
-#define POLAR_H
+
+#ifndef POLARBEAR_H
+#define POLARBEAR_H
 
 // Keys
 
@@ -84,6 +85,7 @@ void PB_LimitFps(PB_Window *window, float fps);
 // Image
 PB_Surface *PB_LoadImage(char *path);
 PB_Texture *PB_LoadImageTexture(char *path);
+void PB_SDL_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 
 PB_Surface *PB_Scale(PB_Surface *surf, int w, int h);
 PB_Pos *PB_CreatePos(int x, int y);
