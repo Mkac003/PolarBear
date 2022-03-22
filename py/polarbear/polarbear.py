@@ -28,24 +28,29 @@ def quit(window):
 
 def get_events():
   events = []
-  event = lib.PB_CreateNoPtrEvent();
+  event = lib.PB_CreateEvent();
   
   now = 1
-  while now is not None:
-    print("getting event")
+  while now:
     now = lib.PB_GetEvent(event)
-    print("appending")
     events.append(_Event(event))
   
   return events
   
 class _Event:
-  def __init__(c_event):
+  def __init__(self, c_event):
     # Creates an Event from a ctypes event
     
     self._event = c_event
     self.type = lib.PB_GetEventType(self._event)
-
+    self._free = False
+    
+  def __del__(self):
+    print("Freeing memory")
+    if not self._free:
+      lib.PB_FreeEvent(self._event)
+      self._free = True
+  
 class Surface:
   def __init__(self, width=50, height=50, surf=None):
     if surf is not None:

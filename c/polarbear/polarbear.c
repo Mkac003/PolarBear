@@ -102,7 +102,7 @@ int PB_GetEvent(PB_Event *pb_event){
   }
 
 PB_Event *PB_CreateEvent(){
-  PB_Event *event;
+  PB_Event *event = malloc(sizeof(PB_Event));
   return event;
   }
 
