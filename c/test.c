@@ -14,9 +14,11 @@ int main(){
   
   PB_Surface *window_surface = PB_GetWindowSurface(window);
   PB_Surface *image = PB_LoadImage("cat.jpg");
+  // PB_Convert(window, image);
+  image = PB_FreeScale(image, 50, 100);
   PB_Convert(window, image);
   
-  PB_Rect *imagerect = PB_CreateRect(0, 0, 643, 638);
+  PB_Rect *imagerect = PB_CreateRect(0, 0, 50, 100);
   PB_Pos *pos = PB_CreatePos(0, 0);
   // PB_DrawFilledCircle(image, 100, 100, 50, 255, 255, 255);
   
@@ -31,8 +33,6 @@ int main(){
         }
       }
     
-    // PB_Clear(window, 255, 255, 255);
-    
     timer ++;
     if (timer>10) {
       timer = 0;
@@ -40,15 +40,21 @@ int main(){
       PB_SetWindowTitle(window, title);
       }
     
+    PB_Clear(window, 255, 255, 255);
+    
     PB_Blit(image, imagerect, window_surface, pos);
     
-    // PB_SetColor(window, 255, 255, 255);
     PB_Refresh(window);
     
     PB_LimitFps(window, -1);
     }
   
+  PB_FreePos(pos);
   PB_FreeSurface(image);
+  PB_FreeEvent(&event);
+  
+  PB_Quit(window);
+  PB_FreeSurface(window_surface);
   
   return 0;
   }

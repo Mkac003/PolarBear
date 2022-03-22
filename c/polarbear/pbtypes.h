@@ -46,4 +46,13 @@ typedef struct {
   SDL_Texture *sdl_tex;
   } PB_Texture;
 
+// union PB_Object {
+  // PB_Event;
+  // PB_Surface;
+  // PB_Window;
+  // PB_Rect;
+  // PB_Pos;
+  // PB_Texture;
+  // }
+
 #endif

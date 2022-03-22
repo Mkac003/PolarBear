@@ -69,22 +69,19 @@ PB_Surface *PB_CreateSurface(int w, int h){
   }
 
 PB_Surface *PB_Scale(PB_Surface *surf, int w, int h){
-  SDL_Rect *rect = malloc(sizeof(SDL_Rect));
-  SDL_Rect *dst = malloc(sizeof(SDL_Rect));
+  SDL_Rect rect;
+  SDL_Rect dst;
   
-  dst->x = 0;
-  dst->y = 0;
-  dst->w = w;
-  dst->h = h;
+  dst.x = 0;
+  dst.y = 0;
+  dst.w = w;
+  dst.h = h;
   
-  SDL_GetClipRect(surf->surface, rect);
+  SDL_GetClipRect(surf->surface, &rect);
   PB_Surface *new_surf = PB_CreateSurface(w, h);
   
-  SDL_BlitScaled(surf->surface, rect, new_surf->surface, dst);
+  SDL_BlitScaled(surf->surface, &rect, new_surf->surface, &dst);
   
-  free(rect);
-  free(dst);
-  free(surf);
   return new_surf;
   }
 
@@ -102,6 +99,21 @@ int PB_GetEvent(PB_Event *pb_event){
   pb_event->type = event.type;
   
   return ret;
+  }
+
+PB_Event *PB_CreateEvent(){
+  PB_Event *event;
+  return event;
+  }
+
+PB_Event PB_CreateNoPtrEvent(){
+  PB_Event event;
+  return event;
+  }
+
+/* For the python wrapper */
+int PB_GetEventType(PB_Event *event){
+  return event->type;
   }
 
 int PB_NullGetEvent(){
@@ -160,9 +172,14 @@ void PB_FreeRect(PB_Rect *rect){
   free(rect);
   }
 
-void PB_FreeSurface(PB_Surface *surface){
-  free(surface->surface);
-  free(surface);
+void PB_FreeSurface(PB_Surface *surf){
+  SDL_FreeSurface(surf->surface);
+  free(surf);
+  }
+
+void PB_FreeEvent(PB_Event *event){
+  free(&event->sdl_event);
+  free(event);
   }
 
 /* Drawing */
@@ -213,8 +230,6 @@ void PB_SetWindowTitle(PB_Window *window, char *title){
   SDL_SetWindowTitle(window->sdl_window, title);
   }
 
-
-
 void PB_ConsoleDisableBuffering(){
   setbuf(stdout, NULL);
   }
@@ -244,4 +259,21 @@ void PB_Quit(PB_Window *window){
   free(window);
   }
 
+PB_Surface *PB_FreeScale(PB_Surface *surf, int w, int h){
+  SDL_Rect rect;
+  SDL_Rect dst;
+  
+  dst.x = 0;
+  dst.y = 0;
+  dst.w = w;
+  dst.h = h;
+  
+  SDL_GetClipRect(surf->surface, &rect);
+  PB_Surface *new_surf = PB_CreateSurface(w, h);
+  
+  SDL_BlitScaled(surf->surface, &rect, new_surf->surface, &dst);
+  PB_FreeSurface(surf);
+  
+  return new_surf;
+  }
 

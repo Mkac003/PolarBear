@@ -72,9 +72,16 @@ void PB_Quit(PB_Window *window);
 PB_Surface *PB_CreateSurface(int w, int h);
 void PB_Blit(PB_Surface *src, PB_Rect *srcrect, PB_Surface *dst, PB_Pos *pos);
 
-void PB_FreeSurface(PB_Surface *surface);
+int PB_SurfaceGetWidth(PB_Surface *surf);
+
+void PB_FreeSurface(PB_Surface *surf);
 int PB_GetEvent(PB_Event *event);
 int PB_NullGetEvent();
+
+PB_Event PB_CreateNoPtrEvent();
+PB_Event *PB_CreateEvent();
+
+int PB_GetEventType(PB_Event *event);
 
 void PB_Clear(PB_Window *window, int r, int g, int b);
 void PB_Refresh(PB_Window *window);
@@ -88,6 +95,7 @@ PB_Texture *PB_LoadImageTexture(char *path);
 void PB_SDL_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 
 PB_Surface *PB_Scale(PB_Surface *surf, int w, int h);
+PB_Surface *PB_FreeScale(PB_Surface *surf, int w, int h);
 PB_Pos *PB_CreatePos(int x, int y);
 void PB_Convert(PB_Window *window, PB_Surface *surf);
 
@@ -96,6 +104,9 @@ PB_Rect *PB_CreateRect(int x, int y, int w, int h);
 void PB_FreeRect(PB_Rect *rect);
 void PB_DrawFilledRectRGB(PB_Surface *surface, PB_Rect *rect, int r, int g, int b);
 void PB_DrawFilledRectXYWHRGB(PB_Surface *surface, int x, int y, int w, int h, int r, int g, int b);
+
+void PB_FreePos(PB_Pos *pos);
+void PB_FreeEvent(PB_Event *event);
 
 // Window
 

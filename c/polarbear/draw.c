@@ -36,13 +36,13 @@ void PB_DrawFilledRectXYWHRGB(PB_Surface *surface, int x, int y, int w, int h, i
   }
 
 void PB_DrawFilledCircle(PB_Surface *surf, int x, int y, int radius, int r, int g, int b){
-  Uint32 color = SDL_MapRGB(surf->surface->format, r, g, b);
-  
   if (SDL_MUSTLOCK(surf->surface)){
     if(SDL_LockSurface(surf->surface) < 0){
       printf("SDL LockSurface Error: %s\n", SDL_GetError());
       }
     }
+  
+  Uint32 color = SDL_MapRGB(surf->surface->format, r, g, b);
   
   for (int w = 0; w < radius * 2; w++) {
     for (int h = 0; h < radius * 2; h++) {
@@ -53,6 +53,47 @@ void PB_DrawFilledCircle(PB_Surface *surf, int x, int y, int radius, int r, int 
       }
     }
   }
+  
+  if (SDL_MUSTLOCK(surf->surface)) {
+    SDL_UnlockSurface(surf->surface);
+    }
+  }
+
+void PB_DrawLine(PB_Surface *surf, int x1, int y1, int x2, int y2, int r, int g, int b){
+  if (SDL_MUSTLOCK(surf->surface)){
+    if(SDL_LockSurface(surf->surface) < 0){
+      printf("SDL LockSurface Error: %s\n", SDL_GetError());
+      }
+    }
+  
+  Uint32 color = SDL_MapRGB(surf->surface->format, r, g, b);
+  
+  
+  
+  
+  if (SDL_MUSTLOCK(surf->surface)) {
+    SDL_UnlockSurface(surf->surface);
+    }
+  }
+
+void PB_QuickDrawLine(PB_Surface *surf, int x1, int y1, int x2, int y2, int s, int r, int g, int b){
+  if (SDL_MUSTLOCK(surf->surface)){
+    if(SDL_LockSurface(surf->surface) < 0){
+      printf("SDL LockSurface Error: %s\n", SDL_GetError());
+      }
+    }
+  
+  Uint32 color = SDL_MapRGB(surf->surface->format, r, g, b);
+  
+  int x;
+  int y;
+  
+  for(float i=0; i<1; i += s){
+    x = x1 + (y2 - x1)*i;
+    y = y1 + (y2 - y1)*i;
+    
+    PB_SDL_putpixel(surf->surface, x, y, color);
+    }
   
   if (SDL_MUSTLOCK(surf->surface)) {
     SDL_UnlockSurface(surf->surface);
