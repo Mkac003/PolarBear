@@ -1,8 +1,40 @@
 #include "polarbear.h"
 #include <SDL2/SDL.h>
 
-#ifndef PB_DRAW_H
-#define PB_DRAW_H
+#ifndef PB_DRAW_C
+#define PB_DRAW_C
+
+void PB_SDL_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
+  /* Use PB_PutPixel - this is here for speed and eff. reasons*/
+  int bpp = surface->format->BytesPerPixel;
+  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+  switch(bpp) {
+  case 1:
+    *p = pixel;
+    break;
+
+  case 2:
+    *(Uint16 *)p = pixel;
+    break;
+
+  case 3:
+    if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+      p[0] = (pixel >> 16) & 0xff;
+      p[1] = (pixel >> 8) & 0xff;
+      p[2] = pixel & 0xff;
+    } else {
+      p[0] = pixel & 0xff;
+      p[1] = (pixel >> 8) & 0xff;
+      p[2] = (pixel >> 16) & 0xff;
+    }
+    break;
+
+  case 4:
+    *(Uint32 *)p = pixel;
+    break;
+  }
+}
 
 void PB_PutPixel(PB_Surface *surf, int x, int y, int r, int g, int b){
   Uint32 color = SDL_MapRGB(surf->surface->format, r, g, b);
@@ -21,7 +53,7 @@ void PB_PutPixel(PB_Surface *surf, int x, int y, int r, int g, int b){
   }
 
 void PB_DrawFilledRectRGB(PB_Surface *surface, PB_Rect *rect, int r, int g, int b){
-  SDL_FillRect(surface->surface, rect->sdl_rect, SDL_MapRGB(surface->surface->format, r, g, b));
+  SDL_FillRect(surface->surface, &rect->sdl_rect, SDL_MapRGB(surface->surface->format, r, g, b));
   }
 
 

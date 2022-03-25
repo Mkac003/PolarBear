@@ -8,10 +8,12 @@
  * */
 
 #include "pbtypes.h"
+// #include "pbdefs.h"
 
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "surface.h"
+#include "font.h"
 
 // Init
 int PB_Init(){
@@ -25,68 +27,9 @@ int PB_Init(){
     printf("SDL_Image Init Error: %s\n", SDL_GetError());
     }
   
+  PB_FontInit();
+  
   return 0;
-  }
-
-// SDL functions
-void PB_SDL_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
-    int bpp = surface->format->BytesPerPixel;
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    switch(bpp) {
-    case 1:
-        *p = pixel;
-        break;
-
-    case 2:
-        *(Uint16 *)p = pixel;
-        break;
-
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-            p[0] = (pixel >> 16) & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = pixel & 0xff;
-        } else {
-            p[0] = pixel & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = (pixel >> 16) & 0xff;
-        }
-        break;
-
-    case 4:
-        *(Uint32 *)p = pixel;
-        break;
-    }
-}
-
-// Create a PB Surface
-PB_Surface *PB_CreateSurface(int w, int h){
-  PB_Surface *surface = malloc(sizeof(PB_Surface));
-  surface->surf_id = 0;
-  surface->surface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-  return surface;
-  }
-
-PB_Surface *PB_Scale(PB_Surface *surf, int w, int h){
-  SDL_Rect rect;
-  SDL_Rect dst;
-  
-  dst.x = 0;
-  dst.y = 0;
-  dst.w = w;
-  dst.h = h;
-  
-  SDL_GetClipRect(surf->surface, &rect);
-  PB_Surface *new_surf = PB_CreateSurface(w, h);
-  
-  SDL_BlitScaled(surf->surface, &rect, new_surf->surface, &dst);
-  
-  return new_surf;
-  }
-
-void PB_Convert(PB_Window *window, PB_Surface *surf){
-  surf->surface = SDL_ConvertSurfaceFormat(surf->surface, SDL_GetWindowPixelFormat(window->sdl_window), 0);
   }
 
 int PB_GetEvent(PB_Event *pb_event){
@@ -122,40 +65,22 @@ int PB_NullGetEvent(){
 
 // Renderer functions
 
-PB_Surface *PB_LoadImage(char *path){
-  PB_Surface *surf = malloc(sizeof(PB_Surface));
-  surf->surface = IMG_Load(path);
-  return surf;
-  }
-
-PB_Texture *PB_LoadImageTexture(char *path){
-  PB_Surface *surf = PB_LoadImage(path);
-  
-  
-  free(path);
-  }
-
 PB_Rect *PB_CreateRect(int x, int y, int w, int h){
   PB_Rect *rect = malloc(sizeof(PB_Rect));
-  SDL_Rect *sdl_rect = malloc(sizeof(SDL_Rect));
   
-  sdl_rect->x = x;
-  sdl_rect->y = y;
-  sdl_rect->w = w;
-  sdl_rect->h = h;
-  
-  rect->sdl_rect = sdl_rect;
+  rect->sdl_rect.x = x;
+  rect->sdl_rect.y = y;
+  rect->sdl_rect.w = w;
+  rect->sdl_rect.h = h;
+ 
   return rect;
   }
 
 PB_Pos *PB_CreatePos(int x, int y){
   PB_Pos *pos = malloc(sizeof(PB_Pos));
-  SDL_Rect *sdl_rect = malloc(sizeof(SDL_Rect));
   
-  sdl_rect->x = x;
-  sdl_rect->y = y;
-  
-  pos->sdl_rect = sdl_rect;
+  pos->x = x;
+  pos->y = y;
   
   return pos;
   }
@@ -163,30 +88,19 @@ PB_Pos *PB_CreatePos(int x, int y){
 /* Free */
 
 void PB_FreePos(PB_Pos *pos){
-  free(pos->sdl_rect);
   free(pos);
   }
 
 void PB_FreeRect(PB_Rect *rect){
-  free(rect->sdl_rect);
   free(rect);
   }
 
-void PB_FreeSurface(PB_Surface *surf){
-  SDL_FreeSurface(surf->surface);
-  free(surf);
-  }
-
 void PB_FreeEvent(PB_Event *event){
-  free(&event->sdl_event);
+  // free(event->sdl_event);
   free(event);
   }
 
 /* Drawing */
-
-void PB_Blit(PB_Surface *src, PB_Rect *srcrect, PB_Surface *dst, PB_Pos *pos){
-  SDL_BlitSurface(src->surface, srcrect->sdl_rect, dst->surface, pos->sdl_rect);
-  };
 
 void PB_Clear(PB_Window *window, int r, int g, int b){
   SDL_FillRect(SDL_GetWindowSurface(window->sdl_window), NULL, SDL_MapRGB(SDL_GetWindowSurface(window->sdl_window)->format, r, g, b));
@@ -259,21 +173,26 @@ void PB_Quit(PB_Window *window){
   free(window);
   }
 
-PB_Surface *PB_FreeScale(PB_Surface *surf, int w, int h){
-  SDL_Rect rect;
-  SDL_Rect dst;
-  
-  dst.x = 0;
-  dst.y = 0;
-  dst.w = w;
-  dst.h = h;
-  
-  SDL_GetClipRect(surf->surface, &rect);
-  PB_Surface *new_surf = PB_CreateSurface(w, h);
-  
-  SDL_BlitScaled(surf->surface, &rect, new_surf->surface, &dst);
-  PB_FreeSurface(surf);
-  
-  return new_surf;
+int PB_GetMousePosX(){
+  int x;
+  SDL_GetMouseState(&x, NULL);
+  return x;
   }
 
+int PB_GetMousePosY(){
+  int y;
+  SDL_GetMouseState(NULL, &y);
+  return y;
+  }
+
+void PB_SetFullScreen(PB_Window *window, int fullscreen){
+  if (fullscreen){
+    if (SDL_SetWindowFullscreen(window->sdl_window, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0){
+      printf("FullScreen Error (setting to on): %s\n", SDL_GetError());
+      }
+    } else {
+      if (SDL_SetWindowFullscreen(window->sdl_window, 0) < 0){
+        printf("FullScreen Error (setting to off): %s\n", SDL_GetError());
+        }
+      }
+  }

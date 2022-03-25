@@ -3,12 +3,6 @@
 #ifndef PB_TYPES_H
 #define PB_TYPES_H
 
-#define PB_QUIT SDL_QUIT
-#define PB_KEYDOWN SDL_KEYDOWN
-#define PB_KEYUP SDL_KEYUP
-
-#define PB_RENDERER_ACCELERATED SDL_RENDERER_ACCELERATED
-
 typedef int PB_Bool;
 #define PB_True 1;
 #define PB_False 0;
@@ -35,11 +29,12 @@ typedef struct {
   } PB_Window;
 
 typedef struct {
-  SDL_Rect *sdl_rect;
+  SDL_Rect sdl_rect;
   } PB_Rect;
 
 typedef struct {
-  SDL_Rect *sdl_rect;
+  int x;
+  int y;
   } PB_Pos;
 
 typedef struct {

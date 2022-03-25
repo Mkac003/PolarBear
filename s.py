@@ -9,6 +9,6 @@ for i in range(0, 13):
   ls.append(f"F{i}")
 
 for char in ls:
-  stn = stn+f"#define PB_{char} SDLK_{char}\n"
+  stn = stn+f"int PB_{char} = SDLK_{char};\n"
 
 print(stn)

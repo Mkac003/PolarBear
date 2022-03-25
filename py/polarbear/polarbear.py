@@ -6,21 +6,9 @@
 import ctypes
 import os
 
-def init(path="polarbear/data/_polarbear.so", loadtype="LoadLibrary"):
+def setlib(clib):
   global lib
-  
-  if not os.path.exists(path):
-    print(f"Path '{path}' does not exist.")
-    return False
-  
-  if loadtype == "LoadLibrary":
-    lib = ctypes.cdll.LoadLibrary(path)
-  elif loadtype == "CDLL":
-    lib = ctypes.CDLL(path)
-  else:
-    print(f"Unknown loadtype '{loadtype}'")
-  
-  lib.PB_Init()
+  lib = clib
 
 def quit(window):
   global lib
@@ -33,23 +21,15 @@ def get_events():
   now = 1
   while now:
     now = lib.PB_GetEvent(event)
-    events.append(_Event(event))
+    yield _Event(event)
   
-  return events
+  lib.PB_FreeEvent(event)
   
 class _Event:
   def __init__(self, c_event):
     # Creates an Event from a ctypes event
     
-    self._event = c_event
-    self.type = lib.PB_GetEventType(self._event)
-    self._free = False
-    
-  def __del__(self):
-    print("Freeing memory")
-    if not self._free:
-      lib.PB_FreeEvent(self._event)
-      self._free = True
+    self.type = lib.PB_GetEventType(c_event)
   
 class Surface:
   def __init__(self, width=50, height=50, surf=None):
