@@ -1,7 +1,4 @@
-#include "polarbear/polarbear.h"
-#include "polarbear/draw.h"
-#include "polarbear/pbdefs.h"
-#include "polarbear/font.h"
+#include "polarbear/main.h"
 
 #include <stdlib.h>
 
@@ -29,14 +26,14 @@ int main(){
   
   PB_Font *font = PB_CreateFont("font.ttf", 20);
   PB_Surface *text = PB_AAFontRender(font, "This is a test", 0, 0, 0);
-  // PB_Convert(window, text);
+  PB_SetMouseVisible(0);
   
   char title[50];
   printf("%i\n", PB_QUIT);
   while (running){
     
     while(PB_GetEvent(&event)){
-      if (event.type==PB_QUIT){
+      if (event.type == PB_QUIT){
         PB_Quit(window);
         return 0;
         }
@@ -53,6 +50,14 @@ int main(){
     
     pos->x = PB_GetMousePosX()-PB_SurfaceGetWidth(text)/2;
     pos->y = PB_GetMousePosY()-PB_SurfaceGetHeight(text)/2;
+    
+    PB_DrawFilledCircle(window_surface, pos->x, pos->y, 50, 255, 0, 0);
+    
+    if (pos->x < 500) {
+      PB_SetMouseVisible(0);
+      } else {
+      PB_SetMouseVisible(1);
+      }
     
     PB_Blit(text, window_surface, pos);
     

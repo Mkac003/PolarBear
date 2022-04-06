@@ -4,12 +4,17 @@
 #include <SDL2/SDL.h>
 #include "pbtypes.h"
 #include "surface.h"
+#include "window.h"
 
 #ifndef POLARBEAR_H
 #define POLARBEAR_H
 
 int PB_Init();
 void PB_Quit(PB_Window *window);
+
+void PB_ShowMouse();
+void PB_HideMouse();
+void PB_SetMouseVisible(int visible);
 
 int PB_GetEvent(PB_Event *event);
 int PB_NullGetEvent();
@@ -32,13 +37,6 @@ void PB_DrawFilledRectXYWHRGB(PB_Surface *surface, int x, int y, int w, int h, i
 
 void PB_FreePos(PB_Pos *pos);
 void PB_FreeEvent(PB_Event *event);
-
-PB_Window *PB_CreateWindow(char *title, int width, int height, Uint32 flags);
-
-void PB_DestroyWindow(PB_Window *window);
-void PB_SetWindowPosition(PB_Window *window, int x, int y);
-void PB_SetWindowTitle(PB_Window *window, char *title);
-PB_Surface *PB_GetWindowSurface(PB_Window *window);
 
 // Other
 void PB_ConsoleDisableBuffering();

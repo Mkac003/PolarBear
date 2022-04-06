@@ -14,6 +14,7 @@
 #include <SDL2/SDL.h>
 #include "surface.h"
 #include "font.h"
+#include "window.h"
 
 // Init
 int PB_Init(){
@@ -114,40 +115,6 @@ void PB_Refresh(PB_Window *window){
   SDL_UpdateWindowSurface(window->sdl_window);
   }
 
-/* Window */
-
-PB_Window *PB_CreateWindow(char *title, int width, int height, Uint32 flags){
-  PB_Window *window = malloc(sizeof(PB_Window));
-  
-  window->sdl_window = SDL_CreateWindow(title, 0, 0, width, height, 0);
-  // window->sdl_renderer = SDL_CreateRenderer(window->sdl_window, -1, flags);
-  
-  window->fps = -1;
-  window->frame_counter = 0;
-  window->frame_next = 1;
-  
-  return window;
-  }
-
-void PB_DestroyWindow(PB_Window *window){
-  SDL_DestroyWindow(window->sdl_window);
-  }
-
-void PB_SetWindowPosition(PB_Window *window, int x, int y){
-  SDL_SetWindowPosition(window->sdl_window, x, y);
-  }
-
-PB_Surface *PB_GetWindowSurface(PB_Window *window){
-  PB_Surface *surf = malloc(sizeof(PB_Surface));
-  surf->surface = SDL_GetWindowSurface(window->sdl_window);
-  surf->surf_id = 0;
-  return surf;
-  }
-
-void PB_SetWindowTitle(PB_Window *window, char *title){
-  SDL_SetWindowTitle(window->sdl_window, title);
-  }
-
 void PB_ConsoleDisableBuffering(){
   setbuf(stdout, NULL);
   }
@@ -187,6 +154,22 @@ int PB_GetMousePosY(){
   int y;
   SDL_GetMouseState(NULL, &y);
   return y;
+  }
+
+void PB_ShowMouse(){
+  SDL_ShowCursor(SDL_ENABLE);
+  }
+
+void PB_HideMouse(){
+  SDL_ShowCursor(SDL_DISABLE);
+  }
+
+void PB_SetMouseVisible(int visible){
+  if (visible) {
+    SDL_ShowCursor(SDL_ENABLE);
+    return;
+    }
+  SDL_ShowCursor(SDL_DISABLE);
   }
 
 void PB_SetFullScreen(PB_Window *window, int fullscreen){
