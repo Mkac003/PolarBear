@@ -8,8 +8,8 @@
 int main(){
   PB_Init();
   
-  PB_Window *window = PB_CreateWindow("Polar Bear", 1920, 1080, PB_RENDERER_ACCELERATED);
-  PB_SetFullScreen(window, 1);
+  PB_Window *window = PB_CreateWindow("Polar Bear", 800, 600, 0);
+  // PB_SetFullScreen(window, 1);
   
   PB_Bool running = PB_True;
   long int timer = 0;
@@ -27,7 +27,7 @@ int main(){
   printf("IMAGE WIDTH %i\n", imagerect->sdl_rect.w);
   PB_Pos *pos = PB_CreatePos(0, 0);
   
-  PB_Font *font = PB_CreateFont("font.ttf", 100);
+  PB_Font *font = PB_CreateFont("font.ttf", 20);
   PB_Surface *text = PB_AAFontRender(font, "This is a test", 0, 0, 0);
   // PB_Convert(window, text);
   

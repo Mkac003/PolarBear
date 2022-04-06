@@ -59,6 +59,10 @@ int PB_GetEventType(PB_Event *event){
   return event->type;
   }
 
+int PB_GetKey(PB_Event *event){
+  return event->key;
+  }
+
 int PB_NullGetEvent(){
   return SDL_PollEvent(NULL);
   }

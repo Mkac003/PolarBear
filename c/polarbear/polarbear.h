@@ -18,6 +18,7 @@ PB_Event PB_CreateNoPtrEvent();
 PB_Event *PB_CreateEvent();
 
 int PB_GetEventType(PB_Event *event);
+int PB_GetKey(PB_Event *event);
 
 void PB_Clear(PB_Window *window, int r, int g, int b);
 void PB_Refresh(PB_Window *window);

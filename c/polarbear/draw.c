@@ -5,7 +5,7 @@
 #define PB_DRAW_C
 
 void PB_SDL_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
-  /* Use PB_PutPixel - this is here for speed and eff. reasons*/
+  /* Use PB_GetPutPixelFunc*/
   int bpp = surface->format->BytesPerPixel;
   Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
 
@@ -35,6 +35,24 @@ void PB_SDL_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
     break;
   }
 }
+
+void PB_SDL_PutPixelFunc1(){
+  
+  
+  }
+
+void *PB_GetPutPixelFunc(PB_Surface *surf){
+  int bpp = surface->format->BytesPerPixel;
+  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+  void *func;
+  
+  switch(bpp) {
+  case 1:
+    func = 
+    }
+  
+  return func;
+  }
 
 void PB_PutPixel(PB_Surface *surf, int x, int y, int r, int g, int b){
   Uint32 color = SDL_MapRGB(surf->surface->format, r, g, b);

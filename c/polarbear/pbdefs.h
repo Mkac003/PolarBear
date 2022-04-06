@@ -2,9 +2,6 @@ int PB_QUIT = SDL_QUIT;
 int PB_KEYDOWN = SDL_KEYDOWN;
 int PB_KEYUP = SDL_KEYUP;
 
-int PB_KEY_a = SDLK_a;
-int PB_KEY_b = SDLK_b;
-
 int PB_a = SDLK_a;
 int PB_b = SDLK_b;
 int PB_c = SDLK_c;

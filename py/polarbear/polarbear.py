@@ -21,15 +21,24 @@ def get_events():
   now = 1
   while now:
     now = lib.PB_GetEvent(event)
-    yield _Event(event)
+    yield _Event(event, key=now)
   
   lib.PB_FreeEvent(event)
-  
+
+class draw:
+  def rect(surface, color, rect):
+    lib.PB_DrawRect()
+
+class mouse:
+  def get_pos():
+    return (lib.PB_GetMousePosX().value, lib.PB_GetMousePosY().value)
+
 class _Event:
-  def __init__(self, c_event):
+  def __init__(self, c_event, key=None):
     # Creates an Event from a ctypes event
     
     self.type = lib.PB_GetEventType(c_event)
+    self.key = lib.PB_GetKey(c_event)
   
 class Surface:
   def __init__(self, width=50, height=50, surf=None):
@@ -40,6 +49,9 @@ class Surface:
   
   def get_width(self):
     return lib.PB_SurfaceGetWidth(self.surf).value
+  
+  def get_height(self):
+    return lib.PB_SurfaceGetHeight(self.surf).value
   
   def __del__(self):
     lib.PB_FreeSurface(self.surface)
@@ -69,7 +81,7 @@ class Window:
     lib.PB_DestroyWindow(self.window)
   
   def set_position(self, x, y):
-    lb.PB_SetWindowPosition(self.window, ctypes.c_int(x), ctypes.c_int(y))
+    lib.PB_SetWindowPosition(self.window, ctypes.c_int(x), ctypes.c_int(y))
   
   def set_title(self, title):
     title_char = ctypes.c_char_p(bytes(str(title), encoding="utf-8")) # Create a char pointer from a string (char *)

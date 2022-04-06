@@ -27,7 +27,10 @@ setlib(lib)
 
 log("loading constants")
 
-print(lib.PB_a)
+QUIT = ctypes.c_int.in_dll(lib, "PB_QUIT").value
+KEYDOWN = ctypes.c_int.in_dll(lib, "PB_KEYDOWN").value
+KEYUP = ctypes.c_int.in_dll(lib, "PB_KEYUP").value
 
-QUIT = lib.PB_QUIT
-#  K_a = 
+K_a = ctypes.c_int.in_dll(lib, "PB_a").value
+K_b = ctypes.c_int.in_dll(lib, "PB_b").value
+K_c = ctypes.c_int.in_dll(lib, "PB_c").value
